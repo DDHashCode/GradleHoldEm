@@ -17,8 +17,7 @@ public class FinalDeck {
         this.cards = cards;
         this.player = player;
         this.cards.addAll(player.getPlayerCards());
-        sortRanks();
-        //System.out.println(this.cards.toString());
+        this.cards.sort(Comparator.comparing(Card::getRank));
         System.out.println("Has HIGH: " + hasHigh());
         System.out.println("pair: " + hasPair(this.cards) + " " + showPair(this.cards));
         System.out.println("three: " + hasThree(this.cards) + " " + showThree(this.cards));
@@ -28,16 +27,6 @@ public class FinalDeck {
         System.out.println("Has Color: " + hasColour(this.cards) + " " + showColor(this.cards));
         System.out.println("Has Quads: " + hasQuads(this.cards) + " " + showQuads(this.cards));
         System.out.println("Has Poker: " + hasPoker(this.cards) + " " + showPoker(this.cards));
-
-
-    }
-
-    private void sortColors(){
-        this.cards.sort(Comparator.comparing(Card::getColour));
-        }
-
-    private void sortRanks() {
-        this.cards.sort(Comparator.comparing(Card::getRank));
     }
 
     public boolean hasPair(ArrayList<Card> cards) {

@@ -31,9 +31,6 @@ public class Gameplay extends Deck{
             firstDistribution();
         //printing out to check if works
             System.out.println(this.amountOfPlayers + "===============");
-            for ( int i = 0 ; i < players.size() ; i++){
-                System.out.println(players.get(i).getPlayerCards().toString());
-            }
             //setting cards to flop - first three cards
             setFlop();
             CardsOnTable.addAll(flopCards);
@@ -45,13 +42,13 @@ public class Gameplay extends Deck{
             //river
             setRiver();
             CardsOnTable.addAll(riverCards);
-            System.out.println(riverCards.toString());
+            /*System.out.println(riverCards.toString());
             CardsOnTable.removeAll(CardsOnTable);
             CardsOnTable.add(new Card(CardRank.FOUR, Colour.SPADE));
             CardsOnTable.add(new Card(CardRank.FIVE, Colour.SPADE));
             CardsOnTable.add(new Card(CardRank.SIX, Colour.SPADE));
             CardsOnTable.add(new Card(CardRank.EIGHT, Colour.SPADE));
-            CardsOnTable.add(new Card(CardRank.SEVEN, Colour.SPADE));
+            CardsOnTable.add(new Card(CardRank.SEVEN, Colour.SPADE));*/
 
             FinalDeck tempDeck = new FinalDeck(CardsOnTable, players.get(0));
         }
