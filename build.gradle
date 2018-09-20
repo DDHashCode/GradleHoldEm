@@ -1,0 +1,18 @@
+apply plugin: 'java'
+//apply plugin: 'Junit'
+
+group = "GradleHoldEm"
+version = "1.0-SNAPSHOT"
+sourceCompatibility = 1.10
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class' : 'TexasHoldEm'
+    }
+}
+
+
