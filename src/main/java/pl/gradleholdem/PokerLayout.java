@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-
+package pl.gradleholdem;
+//TODO Ogarnac kolejnosc figur, przyporzadkowac odpowiednie wartosci
 public enum PokerLayout{
     NONE(0),
     HIGH_CARD(1),
@@ -11,7 +11,8 @@ public enum PokerLayout{
     FULL_HOUSE(7),
     QUADS(8),
     STRAIGHT_FLUSH(9),
-    ROYAL_FLUSH(10);
+    ROYAL_FLUSH(10),
+    COLOR(11);
 
     int number;
 

@@ -1,3 +1,5 @@
+package pl.gradleholdem;
+
 public class Card {
     private CardRank rank;
     private Colour colour;

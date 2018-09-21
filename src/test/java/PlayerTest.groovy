@@ -1,4 +1,6 @@
 import org.junit.Test
+import pl.gradleholdem.Player
+import pl.gradleholdem.PlayerPosition
 
 class PlayerTest extends GroovyTestCase {
     Player p1

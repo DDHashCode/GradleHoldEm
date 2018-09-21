@@ -1,3 +1,5 @@
+package pl.gradleholdem;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -18,7 +20,7 @@ public class FinalDeck {
         this.player = player;
         this.cards.addAll(player.getPlayerCards());
         this.cards.sort(Comparator.comparing(Card::getRank));
-        System.out.println("Has HIGH: " + hasHigh());
+        /*System.out.println("Has HIGH: " + hasHigh());
         System.out.println("pair: " + hasPair(this.cards) + " " + showPair(this.cards));
         System.out.println("three: " + hasThree(this.cards) + " " + showThree(this.cards));
         System.out.println("Full: " + hasFull(this.cards) + " " + showFull(this.cards));
@@ -27,6 +29,7 @@ public class FinalDeck {
         System.out.println("Has Color: " + hasColour(this.cards) + " " + showColor(this.cards));
         System.out.println("Has Quads: " + hasQuads(this.cards) + " " + showQuads(this.cards));
         System.out.println("Has Poker: " + hasPoker(this.cards) + " " + showPoker(this.cards));
+        */
     }
 
     public boolean hasPair(ArrayList<Card> cards) {

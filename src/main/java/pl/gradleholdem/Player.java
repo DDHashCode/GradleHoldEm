@@ -1,3 +1,5 @@
+package pl.gradleholdem;
+
 import java.util.ArrayList;
 
 public class Player {

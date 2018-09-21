@@ -1,3 +1,5 @@
+package pl.gradleholdem;
+
 import java.util.Optional;
 
 public enum PlayerPosition {
@@ -14,7 +16,7 @@ public enum PlayerPosition {
             case BIG_BLIND: return Optional.of(UNDER_THE_GUN);
             case UNDER_THE_GUN: return Optional.of(CUT_OFF);
             case CUT_OFF: return Optional.of(BUTTON);
-            default: return Optional.empty();
+            default: return Optional.of(UNDER_THE_GUN);
         }
     }
 }

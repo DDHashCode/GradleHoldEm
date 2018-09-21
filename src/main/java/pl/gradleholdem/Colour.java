@@ -1,3 +1,5 @@
+package pl.gradleholdem;
+
 public enum Colour {
     //HEART, SPADE, DIAMOND, CLUB
     SPADE(1), CLUB(2), DIAMOND(3), HEART(4);

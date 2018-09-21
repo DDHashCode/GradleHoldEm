@@ -1,3 +1,5 @@
+package pl.gradleholdem;
+
 public enum CardRank {
     TWO(1),
     THREE(2),
