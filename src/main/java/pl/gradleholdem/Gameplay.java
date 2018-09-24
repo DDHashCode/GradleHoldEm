@@ -4,25 +4,26 @@ package pl.gradleholdem;
 public class Gameplay {
     PlayerManagement playerMGM = new PlayerManagement();
     CardManagement cardMGM = new CardManagement();
+    CashManagement cashMGM;
 
 
     public Gameplay() {
-        this.StartGame();
+        cashMGM = new CashManagement(20, playerMGM, 1);
+        this.PreGameSetup();
     }
 
-
-    private void StartGame() {
-        playerMGM.addPlayer();
-        playerMGM.addPlayer();
-
-        cardMGM.firstDistribution(playerMGM);
-        cardMGM.setFlop();
-        cardMGM.setTurn();
-        cardMGM.setRiver();
-
-        System.out.println(cardMGM.getCardOnTable().getCardDeck());
+    private void PreGameSetup() {
+        playerMGM.addPlayer("Dawid");
+        playerMGM.addPlayer("Obelga");
+        cashMGM.setStartCash();
+        playerMGM.listPlayers();
 
 
         //FinalDeck tempDeck = new FinalDeck(cardMGM.getCardOnTable(), );
+        StartGame();
+    }
+
+    private void StartGame() {
+        new Round(this);
     }
 }

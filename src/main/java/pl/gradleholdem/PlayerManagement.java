@@ -20,13 +20,18 @@ public class PlayerManagement {
         players.add(player);
     }
 
-    public void addPlayer() {
-        players.add(new Player(defaultPos));
+    public void addPlayer(String name) {
+        players.add(new Player(defaultPos, name));
         defaultPos.next();
     }
 
     public ArrayList<Player> getPlayersList() {
         return players;
+    }
+
+    public void listPlayers() {
+        this.getPlayersList().stream()
+                .forEach(a -> System.out.printf("%-5d%-20s%-5d%n", a.getID(), a.getNickName(), a.getCash()));
     }
 
 
