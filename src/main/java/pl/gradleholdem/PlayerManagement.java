@@ -5,13 +5,11 @@ package pl.gradleholdem;
 import java.util.ArrayList;
 
 public class PlayerManagement {
-    private int amountOfPlayers;
     private ArrayList<Player> players;
     private PlayerPosition defaultPos;
 
 
     public PlayerManagement() {
-        amountOfPlayers = 0;
         players = new ArrayList<>();
         defaultPos = PlayerPosition.BIG_BLIND;
     }
@@ -25,7 +23,10 @@ public class PlayerManagement {
     public void addPlayer() {
         players.add(new Player(defaultPos));
         defaultPos.next();
-        amountOfPlayers = players.size();
+    }
+
+    public ArrayList<Player> getPlayersList() {
+        return players;
     }
 
 
