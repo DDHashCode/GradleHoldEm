@@ -6,23 +6,18 @@ import java.util.ArrayList;
 
 public class PlayerManagement {
     private ArrayList<Player> players;
-    private PlayerPosition defaultPos;
+    private static PlayerPosition defaultPos;
 
 
     public PlayerManagement() {
         players = new ArrayList<>();
-        defaultPos = PlayerPosition.BIG_BLIND;
+        defaultPos = PlayerPosition.BUTTON;
     }
 
-
-
-    protected void addPlayer(Player player){
-        players.add(player);
-    }
 
     public void addPlayer(String name) {
         players.add(new Player(defaultPos, name));
-        defaultPos.next();
+        defaultPos = defaultPos.next().get();
     }
 
     public ArrayList<Player> getPlayersList() {
@@ -31,7 +26,7 @@ public class PlayerManagement {
 
     public void listPlayers() {
         this.getPlayersList().stream()
-                .forEach(a -> System.out.printf("%-5d%-20s%-5d%n", a.getID(), a.getNickName(), a.getCash()));
+                .forEach(a -> System.out.printf("%-5d%-20s%-5d%-10s%n", a.getID(), a.getNickName(), a.getCash(), a.getPos().toString()));
     }
 
 

@@ -15,12 +15,14 @@ public class Gameplay {
     private void PreGameSetup() {
         playerMGM.addPlayer("Dawid");
         playerMGM.addPlayer("Obelga");
+        playerMGM.addPlayer("Karol");
         cashMGM.setStartCash();
         playerMGM.listPlayers();
 
 
         //FinalDeck tempDeck = new FinalDeck(cardMGM.getCardOnTable(), );
         StartGame();
+        playerMGM.listPlayers();
     }
 
     private void StartGame() {

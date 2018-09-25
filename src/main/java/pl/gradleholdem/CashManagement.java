@@ -6,6 +6,7 @@ public class CashManagement {
     private int smallBlind;
     private int bigBlind;
     private int chipsStack;
+    private int actualBet;
 
     public CashManagement(int startCash, PlayerManagement playerMGM, int smallBlind) {
         this.startCash = startCash;
@@ -13,8 +14,12 @@ public class CashManagement {
         this.smallBlind = smallBlind;
         this.bigBlind = 2 * smallBlind;
         chipsStack = this.smallBlind + this.bigBlind;
+        actualBet = bigBlind;
     }
 
+    public void setActualBet(int actualBet) {
+        this.actualBet = actualBet;
+    }
 
     //TODO create bet method
     public void setStartCash() {
@@ -27,6 +32,10 @@ public class CashManagement {
 
     public void setChipsStack(int chipsStack) {
         this.chipsStack = chipsStack;
+    }
+
+    public void addChipsToStack(int chipsStack) {
+        this.chipsStack += chipsStack;
     }
 
 
@@ -48,5 +57,9 @@ public class CashManagement {
 
     public void setBigBlind(int bigBlind) {
         this.bigBlind = bigBlind;
+    }
+
+    public int getActualBet() {
+        return actualBet;
     }
 }

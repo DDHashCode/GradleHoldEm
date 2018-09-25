@@ -11,7 +11,7 @@ public enum PlayerPosition {
 
     public Optional<PlayerPosition> next() {
         switch(this) {
-            case BUTTON: return Optional.of(SMALL_BLIND);
+            case BUTTON: return  Optional.of(SMALL_BLIND);
             case SMALL_BLIND: return Optional.of(BIG_BLIND);
             case BIG_BLIND: return Optional.of(UNDER_THE_GUN);
             case UNDER_THE_GUN: return Optional.of(CUT_OFF);
