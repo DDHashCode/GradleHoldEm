@@ -3,7 +3,7 @@ package pl.gradleholdem;
 import java.util.ArrayList;
 
 public class Player {
-    private ArrayList<Card> cardsInHand = new ArrayList<>();
+    private Deck cardsInHand = new Deck();
     private PlayerPosition pos;
     private int cash;
     private String nickName;
@@ -21,7 +21,7 @@ public class Player {
     }
 
     public void AddCardToHand(Card card) {
-        this.cardsInHand.add(card);
+        this.cardsInHand.addCardToDeck(card);
     }
 
     public void changePlayerPosition() {
@@ -41,7 +41,7 @@ public class Player {
         this.cash = cash;
     }
 
-    public ArrayList<Card> getPlayerCards() {
+    public Deck getPlayerCards() {
         return cardsInHand;
     }
 

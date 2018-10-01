@@ -20,7 +20,7 @@ public class Gameplay {
         playerMGM.listPlayers();
 
 
-        //FinalDeck tempDeck = new FinalDeck(cardMGM.getCardOnTable(), );
+        //FigureCheck tempDeck = new FigureCheck(cardMGM.getCardOnTable(), );
         StartGame();
         playerMGM.listPlayers();
     }

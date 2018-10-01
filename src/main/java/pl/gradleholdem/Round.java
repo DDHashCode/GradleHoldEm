@@ -1,25 +1,39 @@
 package pl.gradleholdem;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class Round {
     private Gameplay game;
-    Scanner scanner = new Scanner(System.in);
-    int readIN;
+    private Scanner scanner = new Scanner(System.in);
+    private int readIN;
+    private FigureCheck whatDoIHave;
+    private Map<Player, PokerLayout> FigureResult;
 
 
     public Round(Gameplay game) {
         this.game = game;
 
+        setDidntBetYet();
         firstBet();
         game.cardMGM.firstDistribution(game.playerMGM);
         bet();
-        /*game.cardMGM.setFlop();
+        game.cardMGM.setFlop();
         bet();
         game.cardMGM.setTurn();
         bet();
         game.cardMGM.setRiver();
-        bet();*/
+        bet();
+//todo
+        FigureResult = figureCheck();
+
+    }
+
+    private Map<Player, PokerLayout> figureCheck() {
+        game.playerMGM.getPlayersList().stream()
+                .forEach(a -> {
+                    whatDoIHave = new FigureCheck(game.cardMGM.getCardOnTable(), a);
+                });
     }
 
     private void firstBet() {
@@ -38,7 +52,10 @@ public class Round {
                     a.setStatus(BetOptions.CALL);
                 });
         game.playerMGM.getPlayersList().stream()
-                .filter(a -> !(a.getPos().equals(PlayerPosition.SMALL_BLIND) || a.getPos().equals(PlayerPosition.BIG_BLIND)))
+                .filter(a -> !(a.getPos().equals(PlayerPosition.SMALL_BLIND) ||
+                        a.getPos().equals(PlayerPosition.BIG_BLIND) ||
+                        !a.getStatus().equals(BetOptions.ALLIN) ||
+                        !a.getStatus().equals(BetOptions.PASS)))
                 .forEach(a -> {
                     System.out.println(a.getNickName());
                     System.out.println("Actual bet is: " + game.cashMGM.getActualBet());
@@ -47,23 +64,17 @@ public class Round {
                     readIN = scanner.nextInt();
                     switch (readIN) {
                         case 1: //Call
-                            a.removeCash(game.cashMGM.getActualBet());
-                            game.cashMGM.addChipsToStack(game.cashMGM.getActualBet());
-                            a.setStatus(BetOptions.CALL);
+                            call(a);
                             break;
                         case 2: //Raise
-                            System.out.println("How much do you want to raise?");
-                            readIN = scanner.nextInt();
-                            a.removeCash(readIN);
-                            game.cashMGM.addChipsToStack(readIN);
-                            game.cashMGM.setActualBet(readIN);
-                            a.setStatus(BetOptions.RAISE);
+                            raise(a);
                             break;
                         case 3: //Pass
                             a.setStatus(BetOptions.PASS);
                             break;
                         default:
                             System.out.println("Aborting program.");
+                            System.exit(0x1);
                             break;
                     }
                 });
@@ -71,6 +82,7 @@ public class Round {
     }
 
     private void bet() {
+        setDidntBetYet();
         game.playerMGM.getPlayersList().stream()
                 .filter(a -> !a.getStatus().equals(BetOptions.PASS))
                 .forEach(a -> {
@@ -81,30 +93,64 @@ public class Round {
                     readIN = scanner.nextInt();
                     switch (readIN) {
                         case 1: //Call
-                            a.removeCash(game.cashMGM.getActualBet());
-                            game.cashMGM.addChipsToStack(game.cashMGM.getActualBet());
-                            a.setStatus(BetOptions.CALL);
+                            call(a);
                             break;
                         case 2: //Raise
-                            System.out.println("How much do you want to raise?");
-                            readIN = scanner.nextInt();
-                            a.removeCash(readIN);
-                            game.cashMGM.addChipsToStack(readIN);
-                            game.cashMGM.setActualBet(readIN);
-                            a.setStatus(BetOptions.RAISE);
+                            raise(a);
                             break;
                         case 3: //Pass
                             a.setStatus(BetOptions.PASS);
                             break;
                         default:
                             System.out.println("Aborting program.");
+                            System.exit(0x1);
                             break;
                     }
                 });
     }
 
+    private void raise(Player pl) {
+        System.out.println("How much do you want to raise?");
+        readIN = scanner.nextInt();
+        if (readIN < pl.getCash() && readIN > 0) {
+            pl.removeCash(readIN);
+            game.cashMGM.addChipsToStack(readIN);
+            game.cashMGM.setActualBet(readIN);
+            pl.setStatus(BetOptions.RAISE);
+        } else if (readIN <= 0) {
+            System.out.println("You have to specify proper amount of money");
+            raise(pl);
+        } else if (readIN == pl.getCash()) {
+            pl.removeCash(readIN);
+            game.cashMGM.addChipsToStack(readIN);
+            game.cashMGM.setActualBet(readIN);
+            pl.setStatus(BetOptions.ALLIN);
+        } else {
+            System.out.println("You don't have these money.");
+            raise(pl);
+        }
 
+    }
 
+    private void call(Player pl) {
+        if (game.cashMGM.getActualBet() < pl.getCash()) {
+            pl.removeCash(game.cashMGM.getActualBet());
+            game.cashMGM.addChipsToStack(game.cashMGM.getActualBet());
+            pl.setStatus(BetOptions.CALL);
+        } else if (game.cashMGM.getActualBet() >= pl.getCash()) {
+            pl.removeCash(pl.getCash());
+            game.cashMGM.addChipsToStack(pl.getCash());
+            pl.setStatus(BetOptions.ALLIN);
+        }
+
+    }
+
+    private void setDidntBetYet() {
+        this.game.playerMGM.getPlayersList()
+                .stream()
+                .filter(a -> !a.getStatus().equals(BetOptions.ALLIN))
+                .forEach(a -> a.setStatus(BetOptions.DIDNT_BET_YET));
+    }
 
 
 }

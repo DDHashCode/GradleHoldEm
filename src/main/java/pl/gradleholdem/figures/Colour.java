@@ -4,7 +4,7 @@ import pl.gradleholdem.*;
 
 
 public class Colour {
-    final PokerLayout layout = PokerLayout.COLOR;
+    //final PokerLayout layout = PokerLayout.COLOR;
 
     public Colour() {
 

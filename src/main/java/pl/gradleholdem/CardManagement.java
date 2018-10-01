@@ -29,6 +29,7 @@ public class CardManagement {
     }
 
     public void setFlop() {
+        System.out.println("Flop");
         this.pokerDeck.burnCard();
         this.flopCards.addCardToDeck(pokerDeck.getCard());
         this.flopCards.addCardToDeck(pokerDeck.getCard());
@@ -36,11 +37,13 @@ public class CardManagement {
     }
 
     public void setTurn() {
+        System.out.println("Turn");
         this.pokerDeck.burnCard();
         this.flopCards.addCardToDeck(pokerDeck.getCard());
     }
 
     public void setRiver() {
+        System.out.println("River");
         this.pokerDeck.burnCard();
         this.flopCards.addCardToDeck(pokerDeck.getCard());
     }
