@@ -19,7 +19,7 @@ public class FigureCheck {
         this.cards = cards;
         this.player = player;
         this.cards.addCardS(player.getPlayerCards());
-        this.cards.sort(Comparator.comparing(Card::getRank)); //todo
+        this.cards.getCardDeck().sort(Card::compareTo);
 
         /*System.out.println("Has HIGH: " + hasHigh());
         System.out.println("pair: " + hasPair(this.cards) + " " + showPair(this.cards));
@@ -34,8 +34,9 @@ public class FigureCheck {
 
 
     }
-//todo
-    public PokerLayout hasFigure() {
+
+    //todo+
+    /*public PokerLayout hasFigure() {
         if (hasRoyalFlush(this.cards)) {
             return PokerLayout.ROYAL_FLUSH;
         } else if (hasStraightFlush(this.cards)) {
@@ -57,9 +58,13 @@ public class FigureCheck {
         } else
             return PokerLayout.HIGH_CARD;
 
-    }
+    }*/
 
-    public boolean hasPair(ArrayList<Card> cards) {
+    public boolean hasPair(Deck cards) {
+        cards.getCardDeck().stream()
+                .filter(o -> )
+
+
         ArrayList<Card> temp = new ArrayList<>(cards);
         Card tempCard = temp.get(0);
         int counter = 1;
@@ -75,7 +80,7 @@ public class FigureCheck {
         return counter == 2;
     }
 
-    public boolean hasThree(ArrayList<Card> cards) {
+    public boolean hasThree(Deck cards) {
         ArrayList<Card> temp = new ArrayList<>(cards);
         Card tempCard = temp.get(0);
         int counter = 1;
@@ -90,7 +95,7 @@ public class FigureCheck {
         return counter == 3;
     }
 
-    public boolean hasFull(ArrayList<Card> cards) {
+    public boolean hasFull(Deck cards) {
         ArrayList<Card> temp = new ArrayList<>(cards);
         Card tempCard = temp.get(0);
         Card pairCard = tempCard;
@@ -121,7 +126,7 @@ public class FigureCheck {
         return !hasPair(this.cards);
     }
 
-    public boolean hastwoPairs(ArrayList<Card> cards) {
+    public boolean hastwoPairs(Deck cards) {
         ArrayList<Card> temp = new ArrayList<>(cards);
         Card tempCard = temp.get(0);
         Card pairCard = tempCard;
@@ -152,7 +157,7 @@ public class FigureCheck {
         return first - second == 1 || first - second == -1;
     }
 
-    public boolean hasStreigh(ArrayList<Card> cards) {
+    public boolean hasStreigh(Deck cards) {
         ArrayList<Card> temp = new ArrayList<>(cards);
         int check = 0;
         int checker = temp.get(0).getRank().number;
@@ -166,7 +171,7 @@ public class FigureCheck {
         return check == 4;
     }
 
-    public boolean hasColour(ArrayList<Card> cards) {
+    public boolean hasColour(Deck cards) {
         ArrayList<Card> temp = new ArrayList<>(cards);
         temp.sort(Comparator.comparing(Card::getColour));
         int counter = 0;
@@ -183,7 +188,7 @@ public class FigureCheck {
         return counter == 4;
     }
 
-    public boolean hasQuads(ArrayList<Card> cards) {
+    public boolean hasQuads(Deck cards) {
         ArrayList<Card> temp = new ArrayList<>(cards);
         int counter = 0;
         CardRank tempRank = temp.get(0).getRank();
@@ -198,11 +203,11 @@ public class FigureCheck {
         return counter == 4;
     }
 
-    public boolean hasStraightFlush(ArrayList<Card> cards) {
+    public boolean hasStraightFlush(Deck cards) {
         return hasColour(showStreigh(cards));
     }
 
-    private boolean hasRoyalFlush(ArrayList<Card> cards) {
+    private boolean hasRoyalFlush(Deck cards) {
         return hasStraightFlush(this.cards) &&
                 cards.stream().map(Card::getRank).anyMatch(CardRank.A::equals) &&
                 cards.stream().map(Card::getRank).anyMatch(CardRank.TEN::equals);

@@ -1,6 +1,6 @@
 package pl.gradleholdem;
 
-public class Card {
+public class Card implements Comparable<Card>{
     private CardRank rank;
     private Colour colour;
 
@@ -35,6 +35,8 @@ public class Card {
     }
 
 
-
-
+    @Override
+    public int compareTo(Card o) {
+        return Integer.compare(this.rank.number, o.rank.number);
+    }
 }

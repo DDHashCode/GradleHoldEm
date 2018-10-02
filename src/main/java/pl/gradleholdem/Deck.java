@@ -48,4 +48,6 @@ public class Deck {
     public void addCardS(Deck deck) {
         this.deckStack.addAll(deck.deckStack);
     }
+
+
 }
