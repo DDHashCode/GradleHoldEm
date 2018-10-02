@@ -15,26 +15,27 @@ public class Round {
         this.game = game;
 
         setDidntBetYet();
-        firstBet();
+        //firstBet();
         game.cardMGM.firstDistribution(game.playerMGM);
-        bet();
+        //bet();
         game.cardMGM.setFlop();
-        bet();
+        //bet();
         game.cardMGM.setTurn();
-        bet();
+        //bet();
         game.cardMGM.setRiver();
-        bet();
+        //bet();
+        FigureCheck fCheck = new FigureCheck(game.cardMGM.getCardOnTable(), game.playerMGM.getPlayersList().get(0));
 //todo
-        FigureResult = figureCheck();
+        //FigureResult = figureCheck();
 
     }
 
-    private Map<Player, PokerLayout> figureCheck() {
+    /*private Map<Player, PokerLayout> figureCheck() {
         game.playerMGM.getPlayersList().stream()
                 .forEach(a -> {
                     whatDoIHave = new FigureCheck(game.cardMGM.getCardOnTable(), a);
                 });
-    }
+    }*/
 
     private void firstBet() {
         game.playerMGM.getPlayersList().stream()

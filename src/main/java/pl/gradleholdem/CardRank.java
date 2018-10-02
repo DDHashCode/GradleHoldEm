@@ -24,4 +24,8 @@ public enum CardRank {
     public boolean isBiggerThan(CardRank test) {
         return this.number > test.number;
     }
+
+    public int getNumber() {
+        return number;
+    }
 }

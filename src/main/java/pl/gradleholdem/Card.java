@@ -39,4 +39,10 @@ public class Card implements Comparable<Card>{
     public int compareTo(Card o) {
         return Integer.compare(this.rank.number, o.rank.number);
     }
+
+    public Card getCard() {
+        return this;
+    }
+
+
 }

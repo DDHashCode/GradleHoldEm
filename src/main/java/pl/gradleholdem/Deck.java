@@ -18,7 +18,12 @@ public class Deck {
         this.deckStack = deckStack;
     }
 
-    public Deck() {
+    public Deck(Deck deck) {
+        this.deckStack.addAll(deck.getCardDeck());
+    }
+
+    public Deck(){
+
     }
 
     protected void tossCardDeck() {
@@ -47,6 +52,10 @@ public class Deck {
 
     public void addCardS(Deck deck) {
         this.deckStack.addAll(deck.deckStack);
+    }
+
+    public void removeCard(Card card){
+        this.deckStack.remove(card);
     }
 
 
