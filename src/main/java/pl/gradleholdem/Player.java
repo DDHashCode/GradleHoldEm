@@ -1,15 +1,21 @@
 package pl.gradleholdem;
 
-import java.util.ArrayList;
+
+import java.util.Optional;
 
 public class Player {
-    private Deck cardsInHand = new Deck();
-    private PlayerPosition pos;
-    private int cash;
-    private String nickName;
     private static int ID = 1;
+
     private int playerID;
+    private String nickName;
+    private int cash;
+    private PlayerPosition pos;
+    private Deck cardsInHand = new Deck();
+    private Deck layoutCards = new Deck();
+
+
     private BetOptions status;
+    private PokerLayout layout;
 
     public Player(PlayerPosition pos, String nickName) {
         this.pos = pos;
@@ -18,6 +24,22 @@ public class Player {
         status = BetOptions.DIDNT_BET_YET;
         playerID = ID;
         ID++;
+    }
+
+    public Deck getLayoutCards() {
+        return layoutCards;
+    }
+
+    public void setLayoutCards(Deck layoutCards) {
+        this.layoutCards = layoutCards;
+    }
+
+    public void setLayout(PokerLayout layout) {
+        this.layout = layout;
+    }
+
+    public Optional getLayout() {
+        return Optional.ofNullable(layout);
     }
 
     public void AddCardToHand(Card card) {

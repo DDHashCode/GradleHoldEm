@@ -1,5 +1,6 @@
 package pl.gradleholdem;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ public class Round {
     private Scanner scanner = new Scanner(System.in);
     private int readIN;
     private FigureCheck whatDoIHave;
-    private Map<Player, PokerLayout> FigureResult;
+    private Map<Player, PokerLayout> figureResult = new HashMap<>();
 
 
     public Round(Gameplay game) {
@@ -24,18 +25,19 @@ public class Round {
         //bet();
         game.cardMGM.setRiver();
         //bet();
-        FigureCheck fCheck = new FigureCheck(game.cardMGM.getCardOnTable(), game.playerMGM.getPlayersList().get(0));
-//todo
-        //FigureResult = figureCheck();
+
+
+        for(Player player : game.playerMGM.getPlayersList()){
+            whatDoIHave = new FigureCheck(game.cardMGM.getCardOnTable(), player);
+            figureResult.put(player, whatDoIHave.hasFigure());
+            player.setLayout(whatDoIHave.hasFigure());
+        }
+
+        System.out.println("\nHereHereBitte");
+        System.out.println(game.cardMGM.getCardOnTable().getCardDeck());
+        //figureResult.forEach((a, b) -> System.out.println(a.getNickName() + " : " + b + " : " + a.getLayoutCards().getCardDeck()));
 
     }
-
-    /*private Map<Player, PokerLayout> figureCheck() {
-        game.playerMGM.getPlayersList().stream()
-                .forEach(a -> {
-                    whatDoIHave = new FigureCheck(game.cardMGM.getCardOnTable(), a);
-                });
-    }*/
 
     private void firstBet() {
         game.playerMGM.getPlayersList().stream()

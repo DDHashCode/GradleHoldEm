@@ -26,7 +26,14 @@ public class PlayerManagement {
 
     public void listPlayers() {
         this.getPlayersList().stream()
-                .forEach(a -> System.out.printf("%-5d%-20s%-5d%-10s%n", a.getID(), a.getNickName(), a.getCash(), a.getPos().toString()));
+                .forEach(a ->
+                    System.out.printf("%-3d%-10s%-3d%-10s%13s%20s%n",
+                            a.getID(),
+                            a.getNickName(),
+                            a.getCash(),
+                            a.getPos().toString(),
+                            a.getLayout().orElse("Empty"),
+                            a.getPlayerCards().getCardDeck().toString()));
     }
 
 
