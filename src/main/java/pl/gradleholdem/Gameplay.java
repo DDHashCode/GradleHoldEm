@@ -23,6 +23,7 @@ public class Gameplay {
         //FigureCheck tempDeck = new FigureCheck(cardMGM.getCardOnTable(), );
         StartGame();
         playerMGM.listPlayers();
+        //TODO Dodać podsumowanie rundy
     }
 
     private void StartGame() {

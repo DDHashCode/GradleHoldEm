@@ -1,14 +1,17 @@
 package pl.gradleholdem.figures;
 
-import pl.gradleholdem.*;
+import pl.gradleholdem.Cardable;
+import pl.gradleholdem.Deck;
+import pl.gradleholdem.PokerLayout;
 
-
-public class Colour {
-    //final PokerLayout layout = PokerLayout.COLOR;
-
-    public Colour() {
-
+public class Colour implements Cardable {
+    @Override
+    public Deck showFigure() {
+        return null;
     }
 
-
+    @Override
+    public PokerLayout getFigureName() {
+        return PokerLayout.FLUSH;
+    }
 }

@@ -1,4 +1,6 @@
 package pl.gradleholdem;
+
+
 /*
 
 TODO create menu class
@@ -10,10 +12,10 @@ TODO
 TODO
 
 */
-
 public class TexasHoldEm {
     public static void main(String[] args) {
         //System.out.println(java.util.Arrays.asList(pl.gradleholdem.CardRank.values()));
+
         new Gameplay();
         System.gc();
 

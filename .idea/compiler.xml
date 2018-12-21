@@ -6,4 +6,9 @@
       <module name="GradleHoldEm_test" target="1.10" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="GradleHoldEm_main" options="--add-modules=javafx.base,javafx.graphics --add-exports=javafx.base/javafx=ALL-UNNAMED" />
+    </option>
+  </component>
 </project>

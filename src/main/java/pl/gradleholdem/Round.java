@@ -9,22 +9,22 @@ public class Round {
     private Scanner scanner = new Scanner(System.in);
     private int readIN;
     private FigureCheck whatDoIHave;
-    private Map<Player, PokerLayout> figureResult = new HashMap<>();
+    private Map<Player, PokerLayout> figureResult = new HashMap<>(); //shows layout for each player
 
 
     public Round(Gameplay game) {
         this.game = game;
 
         setDidntBetYet();
-        //firstBet();
+        firstBet();
         game.cardMGM.firstDistribution(game.playerMGM);
-        //bet();
+        bet();
         game.cardMGM.setFlop();
-        //bet();
+        bet();
         game.cardMGM.setTurn();
-        //bet();
+        bet();
         game.cardMGM.setRiver();
-        //bet();
+        bet();
 
 
         for(Player player : game.playerMGM.getPlayersList()){
@@ -34,8 +34,18 @@ public class Round {
         }
 
         System.out.println("\nHereHereBitte");
-        System.out.println(game.cardMGM.getCardOnTable().getCardDeck());
-        //figureResult.forEach((a, b) -> System.out.println(a.getNickName() + " : " + b + " : " + a.getLayoutCards().getCardDeck()));
+        System.out.println(game.cardMGM.getCardOnTable().deckStack);
+        figureResult.forEach((a, b) -> System.out.println(a.getNickName() + " : " + b + " : " + a.getLayoutCards().deckStack));
+
+
+
+
+
+        System.out.println("Winner is:");
+        System.out.println(this.game.playerMGM.showWinner().getNickName());
+
+
+
 
     }
 
@@ -117,8 +127,8 @@ public class Round {
         readIN = scanner.nextInt();
         if (readIN < pl.getCash() && readIN > 0) {
             pl.removeCash(readIN);
-            game.cashMGM.addChipsToStack(readIN);
-            game.cashMGM.setActualBet(readIN);
+            game.cashMGM.addChipsToStack(game.cashMGM.getActualBet() + readIN);
+            game.cashMGM.setActualBet(game.cashMGM.getActualBet() + readIN);
             pl.setStatus(BetOptions.RAISE);
         } else if (readIN <= 0) {
             System.out.println("You have to specify proper amount of money");

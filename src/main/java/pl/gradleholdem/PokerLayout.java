@@ -1,5 +1,5 @@
 package pl.gradleholdem;
-//TODO Ogarnac kolejnosc figur, przyporzadkowac odpowiednie wartosci
+
 public enum PokerLayout{
     NONE(0),
     HIGH_CARD(1),
@@ -17,8 +17,8 @@ public enum PokerLayout{
     int number;
 
 
-    private PokerLayout(int numer) {
-        this.number = numer;
+    private PokerLayout(int number) {
+        this.number = number;
     }
 
     public boolean isBiggerThan(PokerLayout check){

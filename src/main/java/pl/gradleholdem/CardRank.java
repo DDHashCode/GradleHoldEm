@@ -28,4 +28,17 @@ public enum CardRank {
     public int getNumber() {
         return number;
     }
+
+  /*  public int compare(CardRank o1, CardRank o2){
+        if (o1.getNumber() < o2.getNumber()) {
+            return -1;
+        }
+        if (o1.getNumber() > o2.getNumber()) {
+            return 1;
+        }
+        else return 0;
+
+    }
+*/
+
 }

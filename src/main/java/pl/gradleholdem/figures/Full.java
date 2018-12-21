@@ -1,4 +1,18 @@
 package pl.gradleholdem.figures;
 
-public class Full {
+import pl.gradleholdem.Cardable;
+import pl.gradleholdem.Deck;
+import pl.gradleholdem.PokerLayout;
+
+public class Full implements Cardable {
+
+    @Override
+    public Deck showFigure() {
+        return null;
+    }
+
+    @Override
+    public PokerLayout getFigureName() {
+        return PokerLayout.FULL_HOUSE;
+    }
 }

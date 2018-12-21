@@ -1,5 +1,5 @@
 package pl.gradleholdem;
-// todo TODO TODO TODO rozdzielenie pokerdeck i deck, pokerdeck ma dziedziczyc z deck, dodanie innych deckow, np flop, turn, river, spalanie karty
+// todo dodanie innych deckow, np flop, turn, river,
 
 
 

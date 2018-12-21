@@ -1,8 +1,6 @@
 package pl.gradleholdem;
 
 
-import java.util.Optional;
-
 public class Player {
     private static int ID = 1;
 
@@ -38,8 +36,8 @@ public class Player {
         this.layout = layout;
     }
 
-    public Optional getLayout() {
-        return Optional.ofNullable(layout);
+    public PokerLayout getLayout() {
+        return this.layout;
     }
 
     public void AddCardToHand(Card card) {

@@ -1,25 +1,22 @@
 package pl.gradleholdem;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Stack;
+import java.util.*;
+
 
 public class Deck {
     protected int maxCardsInDeck;
     protected int cardsInDeck;
-    //protected ArrayList<Card> cardDeck = new ArrayList<>();
     protected Stack<Card> deckStack = new Stack<>();
 
 
-    public Deck(int maxCardsInDeck, int cardsInDeck, ArrayList<Card> cardDeck, Stack<Card> deckStack) {
+    public Deck(int maxCardsInDeck, int cardsInDeck, Stack<Card> deckStack) {
         this.maxCardsInDeck = maxCardsInDeck;
         this.cardsInDeck = cardsInDeck;
-        //this.cardDeck = cardDeck;
         this.deckStack = deckStack;
     }
 
     public Deck(Deck deck) {
-        this.deckStack.addAll(deck.getCardDeck());
+        this.deckStack.addAll(deck.deckStack);
     }
 
     public Deck(){
@@ -30,9 +27,6 @@ public class Deck {
         Collections.shuffle(deckStack);
     }
 
-    public ArrayList<Card> getCardDeck() {
-        return new ArrayList<>(deckStack);
-    }
 
     public int getSize() {
         return this.deckStack.size();
@@ -56,6 +50,13 @@ public class Deck {
 
     public void removeCard(Card card){
         this.deckStack.remove(card);
+    }
+
+    public void sortByRankAndDistinct() {
+        SortedSet<Card> sset = new TreeSet<>(Comparator.comparing(Card::getRank));
+        sset.addAll(this.deckStack);
+        this.deckStack.removeAllElements();
+        this.deckStack.addAll(sset);
     }
 
 

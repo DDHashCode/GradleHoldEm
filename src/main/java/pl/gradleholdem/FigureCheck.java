@@ -7,19 +7,22 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class FigureCheck {
-    private Deck cards;
+    public Deck cards;
     private Player player;
 
     static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
         Map<Object, Boolean> seen = new ConcurrentHashMap<>();
         return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
+    public FigureCheck() {
+
+    }
 
     public FigureCheck(Deck cards, Player player) {
         this.cards = cards;
         this.player = player;
         this.cards.addCardS(player.getPlayerCards());
-        this.cards.getCardDeck().sort(Card::compareTo);
+        this.cards.deckStack.sort(Card::compareTo);
 
 
 
@@ -41,44 +44,61 @@ public class FigureCheck {
     //todo hasFigure trzeba sprawwdzic, nie dziala.
     public PokerLayout hasFigure() {
         if (hasRoyalFlush(this.cards)) {
-            this.player.setLayoutCards(showRoyalFlush(this.cards));
             return PokerLayout.ROYAL_FLUSH;
         } else if (hasStraightFlush(this.cards)) {
-            this.player.setLayoutCards(showStraightFlush(this.cards));
             return PokerLayout.STRAIGHT_FLUSH;
         } else if (hasQuads(this.cards)) {
-            this.player.setLayoutCards(showQuads(this.cards));
             return PokerLayout.QUADS;
         } else if (hasFull(this.cards)) {
-            this.player.setLayoutCards(showFull(this.cards));
             return PokerLayout.FULL_HOUSE;
         } else if (hasColour(this.cards)) {
-            this.player.setLayoutCards(showColour(this.cards));
             return PokerLayout.FLUSH;
         } else if (hasStreigh(this.cards)) {
-            this.player.setLayoutCards(showStreigh(this.cards));
             return PokerLayout.STREIGH;
         } else if (hasThree(this.cards)) {
-            this.player.setLayoutCards(showThree(this.cards));
             return PokerLayout.THREE;
         } else if (hasTwoPairs(this.cards)) {
-            this.player.setLayoutCards(showTwoPairs(this.cards));
             return PokerLayout.TWO_PAIRS;
         } else if (hasPair(this.cards)) {
-            this.player.setLayoutCards(showPair(this.cards));
             return PokerLayout.PAIR;
         } else
-            this.player.getLayoutCards().addCardToDeck(showHigh(this.cards));
             return PokerLayout.HIGH_CARD;
 
     }
-//todo zrobic has/showpair two pairs i three tak jak zrobione sa quadsy. showthree done
+
+
+    //todo not really working, create another method
+    public PokerLayout hasFigureTwo() {
+        if (hasRoyalFlush()) {
+            return PokerLayout.ROYAL_FLUSH;
+        } else if (hasStraightFlush()) {
+            return PokerLayout.STRAIGHT_FLUSH;
+        } else if (hasQuads()) {
+            return PokerLayout.QUADS;
+        } else if (hasColour()) {
+            return PokerLayout.FLUSH;
+        } else if (hasStreigh()) {
+            return PokerLayout.STREIGH;
+        } else if (hasThree() && !hasFull()) {
+            return PokerLayout.THREE;
+        } else if (hasTwoPairs()) {
+            return PokerLayout.TWO_PAIRS;
+        } else if (hasPair() && !hasFull()) {
+            return PokerLayout.PAIR;
+        } else if (hasFull()){
+            return PokerLayout.FULL_HOUSE;
+        } else {
+            return PokerLayout.HIGH_CARD;
+        }
+    }
+
+
     private boolean hasHigh() {
         return !hasPair(this.cards);
     }
 
     private Card showHigh(Deck cards) {
-        Card out = cards.getCardDeck().stream()
+        Card out = cards.deckStack.stream()
                 .max(Comparator.comparing(Card::getRank))
                 .get();
         return out;
@@ -90,7 +110,7 @@ public class FigureCheck {
 
         for (CardRank rank : CardRank.values()) {
             predicate = a -> a.getRank().equals(rank);
-            if (cards.getCardDeck().stream().filter(predicate).count() == 2) {
+            if (cards.deckStack.stream().filter(predicate).count() == 2) {
                 out = true;
                 break;
             }
@@ -99,14 +119,33 @@ public class FigureCheck {
         return out;
     }
 
-    private Deck showPair(Deck cards) {
+
+
+    public boolean hasPair() {
+        Predicate<Card> predicate;
+        boolean out = false;
+
+        for (CardRank rank : CardRank.values()) {
+            predicate = a -> a.getRank().equals(rank);
+            if (this.cards.deckStack.stream().filter(predicate).count() == 2) {
+                out = true;
+                break;
+            }
+        }
+
+        return out;
+    }
+
+
+
+    public Deck showPair(Deck cards) {
         Predicate<Card> predicate;
         Deck out = new Deck();
 
         for (CardRank rank : CardRank.values()) {
             predicate = a -> a.getRank().equals(rank);
-            if (cards.getCardDeck().stream().filter(predicate).count() == 2) {
-                cards.getCardDeck().stream()
+            if (cards.deckStack.stream().filter(predicate).count() == 2) {
+                cards.deckStack.stream()
                         .filter(predicate)
                         .forEach(a -> {
                             out.addCardToDeck(a);
@@ -122,7 +161,7 @@ public class FigureCheck {
 
         for (CardRank rank : CardRank.values()) {
             predicate = a -> a.getRank().equals(rank);
-            if (cards.getCardDeck().stream().filter(predicate).count() == 3) {
+            if (cards.deckStack.stream().filter(predicate).count() == 3) {
                 out = true;
                 break;
             }
@@ -131,14 +170,33 @@ public class FigureCheck {
         return out;
     }
 
+
+
+    public boolean hasThree() {
+        Predicate<Card> predicate;
+        boolean out = false;
+
+        for (CardRank rank : CardRank.values()) {
+            predicate = a -> a.getRank().equals(rank);
+            if (this.cards.deckStack.stream().filter(predicate).count() == 3) {
+                out = true;
+                break;
+            }
+        }
+
+        return out;
+    }
+
+
+
     private Deck showThree(Deck cards) {
         Predicate<Card> predicate;
         Deck out = new Deck();
 
         for (CardRank rank : CardRank.values()) {
             predicate = a -> a.getRank().equals(rank);
-            if (cards.getCardDeck().stream().filter(predicate).count() == 3) {
-                cards.getCardDeck().stream()
+            if (cards.deckStack.stream().filter(predicate).count() == 3) {
+                cards.deckStack.stream()
                         .filter(predicate)
                         .forEach(a -> {
                             out.addCardToDeck(a);
@@ -146,90 +204,151 @@ public class FigureCheck {
             }
         }
         return out;
-
-        /*
-        Map<CardRank, Long> res = this.cards.getCardDeck().stream().collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
-
-        Deck tempDeck = new Deck();
-        res.forEach((cardRank, aLong) -> {
-            if (aLong == 3) {
-                System.out.println(cardRank);
-                this.cards.getCardDeck().stream()
-                        .filter(card -> card.getRank().equals(cardRank))
-                        .forEach(a -> tempDeck.addCardToDeck(a));
-            }
-        });
-        return tempDeck;*/
     }
 
     private boolean hasTwoPairs(Deck cards) {
         Deck temp = new Deck(cards);
-        for (Card card : showPair(cards).getCardDeck()) {
+        for (Card card : showPair(cards).deckStack) {
             temp.removeCard(card);
         }
         return hasPair(cards) && hasPair(temp);
     }
 
+
+    public boolean hasTwoPairs() {
+        Deck temp = new Deck(this.cards);
+        for (Card card : showPair(this.cards).deckStack) {
+            temp.removeCard(card);
+        }
+        return hasPair(this.cards) && hasPair(temp);
+    }
+
+
+
     private Deck showTwoPairs(Deck cards) {
         Deck outputDeck = new Deck(showPair(cards));
         Deck temp = new Deck(cards);
-        for (Card card : outputDeck.getCardDeck()) temp.removeCard(card);
+        for (Card card : outputDeck.deckStack) temp.removeCard(card);
         outputDeck.addCardS(showPair(temp));
         return outputDeck;
     }
 
     private boolean hasFull(Deck cards) {
-        Deck temp = cards;
+        Deck temp = new Deck(cards);
         Deck t = showThree(cards);
-        temp.getCardDeck().forEach(a -> t.removeCard(a));
+        temp.deckStack.forEach(a -> t.removeCard(a));
         return hasPair(temp);
     }
+
+    public boolean hasFull() {
+        Deck temp = new Deck();
+        Deck out = new Deck(this.cards);
+        temp.addCardS(showThree(out)); // Three in temporary deck
+        out.deckStack.removeAllElements();
+        out.addCardS(this.cards);
+        for (Card c : temp.deckStack) out.removeCard(c);
+        return hasPair(out);
+    }
+
+    public Deck showThree() {
+        Predicate<Card> predicate;
+        Deck out = new Deck();
+
+        for (CardRank rank : CardRank.values()) {
+            predicate = a -> a.getRank().equals(rank);
+            if (cards.deckStack.stream().filter(predicate).count() == 3) {
+                cards.deckStack.stream()
+                        .filter(predicate)
+                        .forEach(a -> {
+                            out.addCardToDeck(a);
+                        });
+            }
+        }
+        return out;
+    }
+
+
 
     private Deck showFull(Deck cards) {
         Deck temp = new Deck(cards);
         Deck outputDeck = new Deck(showThree(cards));
-        for (Card card : showThree(cards).getCardDeck()) temp.removeCard(card);
+        for (Card card : showThree(cards).deckStack) temp.removeCard(card);
         outputDeck.addCardS(temp);
 
         return outputDeck;
     }
 
 
-    private boolean areNeighbours(int first, int second) {
+    public boolean areNeighbours(int first, int second) {
         return first - second == 1 || first - second == -1;
     }
 
     private boolean hasStreigh(Deck cards) {
         Deck temp = new Deck(cards);
         int check = 0;
-        int checker = temp.getCardDeck().get(0).getRank().getNumber();
+        int checker = temp.deckStack.get(0).getRank().getNumber();
 
 
-        for (int i = 0; i < temp.getCardDeck().size(); i++) {
+        for (int i = 0; i < temp.deckStack.size(); i++) {
             if (check == 4) break;
-            if (areNeighbours(checker, temp.getCardDeck().get(i).getRank().number)) {
+            if (areNeighbours(checker, temp.deckStack.get(i).getRank().number)) {
                 check++;
-                checker = temp.getCardDeck().get(i).getRank().number;
-            } else checker = temp.getCardDeck().get(i).getRank().number;
+                checker = temp.deckStack.get(i).getRank().number;
+            } else checker = temp.deckStack.get(i).getRank().number;
         }
         return check == 4;
     }
 
+    public boolean hasStreigh() {
+        Deck temp = new Deck(this.cards);
+        temp.sortByRankAndDistinct();
+        if (temp.deckStack.size() >= 5){
+            return temp.deckStack.get(0).getRank().number + 1 == temp.deckStack.get(1).getRank().number &&
+                    temp.deckStack.get(1).getRank().number + 1 == temp.deckStack.get(2).getRank().number &&
+                    temp.deckStack.get(2).getRank().number + 1 == temp.deckStack.get(3).getRank().number &&
+                    temp.deckStack.get(3).getRank().number + 1 == temp.deckStack.get(4).getRank().number;
+        } else return false;
+
+    }
+
+
+
     private Deck showStreigh(Deck cards) {
         Deck tempList = new Deck();
         Deck outputList = new Deck();
-        tempList.getCardDeck().sort(Comparator.comparing(Card::getRank));
+        tempList.deckStack.sort(Comparator.comparing(Card::getRank));
 
-        cards.getCardDeck().stream()
+        cards.deckStack.stream()
                 .filter(distinctByKey(p -> p.getRank()))
                 .forEach(tempList::addCardToDeck);
 
 
-        for (int iterator = 1; iterator < tempList.getCardDeck().size(); iterator++) {
-            if (iterator == 1) outputList.addCardToDeck(tempList.getCardDeck().get(iterator));
-            if (tempList.getCardDeck().get(iterator).getRank().number == tempList.getCardDeck().get(iterator - 1).getRank().number + 1) {
-                if (iterator == 1) outputList.addCardToDeck(tempList.getCardDeck().get(iterator));
-                else outputList.addCardToDeck(tempList.getCardDeck().get(iterator));
+        for (int iterator = 1; iterator < tempList.deckStack.size(); iterator++) {
+            if (iterator == 1) outputList.addCardToDeck(tempList.deckStack.get(iterator));
+            if (tempList.deckStack.get(iterator).getRank().number == tempList.deckStack.get(iterator - 1).getRank().number + 1) {
+                if (iterator == 1) outputList.addCardToDeck(tempList.deckStack.get(iterator));
+                else outputList.addCardToDeck(tempList.deckStack.get(iterator));
+            }
+        }
+        return outputList;
+    }
+
+
+    public Deck showStreigh() {
+        Deck tempList = new Deck();
+        Deck outputList = new Deck();
+        tempList.deckStack.sort(Comparator.comparing(Card::getRank));
+
+        this.cards.deckStack.stream()
+                .filter(distinctByKey(p -> p.getRank()))
+                .forEach(tempList::addCardToDeck);
+
+
+        for (int iterator = 1; iterator < tempList.deckStack.size(); iterator++) {
+            if (iterator == 1) outputList.addCardToDeck(tempList.deckStack.get(iterator));
+            if (tempList.deckStack.get(iterator).getRank().number == tempList.deckStack.get(iterator - 1).getRank().number + 1) {
+                if (iterator == 1) outputList.addCardToDeck(tempList.deckStack.get(iterator));
+                else outputList.addCardToDeck(tempList.deckStack.get(iterator));
             }
         }
         return outputList;
@@ -241,7 +360,7 @@ public class FigureCheck {
 
         for (Colour kolor : Colour.values()) {
             predicate = s -> s.getColour().equals(kolor);
-            if (cards.getCardDeck().stream().filter(predicate).count() > 4) {
+            if (cards.deckStack.stream().filter(predicate).count() >= 5) {
                 out = true;
                 break;
             }
@@ -250,14 +369,46 @@ public class FigureCheck {
         return out;
     }
 
+    public boolean hasColour() {
+        Predicate<Card> predicate;
+        boolean out = false;
+
+        for (Colour kolor : Colour.values()) {
+            predicate = s -> s.getColour().equals(kolor);
+            if (this.cards.deckStack.stream().filter(predicate).count() >= 5) {
+                out = true;
+                break;
+            }
+        }
+
+        return out;
+    } //tested, OK
+
     private Deck showColour(Deck cards) {
         Predicate<Card> predicate;
         Deck out = new Deck();
 
         for (Colour kolor : Colour.values()) {
             predicate = a -> a.getColour().equals(kolor);
-            if (cards.getCardDeck().stream().filter(predicate).count() >= 5) {
-                cards.getCardDeck().stream()
+            if (cards.deckStack.stream().filter(predicate).count() >= 5) {
+                cards.deckStack.stream()
+                        .filter(predicate)
+                        .forEach(a -> {
+                            out.addCardToDeck(a);
+                        });
+            }
+        }
+        return out;
+    }
+
+    public Deck showColour() {
+        Predicate<Card> predicate;
+        Deck out = new Deck();
+
+        for (Colour kolor : Colour.values()) {
+            predicate = a -> a.getColour().equals(kolor);
+            if (this.cards.deckStack.stream().filter(predicate).count() >= 5) {
+                this.cards.deckStack.stream()
                         .filter(predicate)
                         .forEach(a -> {
                             out.addCardToDeck(a);
@@ -273,7 +424,23 @@ public class FigureCheck {
 
         for (CardRank rank : CardRank.values()) {
             predicate = a -> a.getRank().equals(rank);
-            if (cards.getCardDeck().stream().filter(predicate).count() == 4) {
+            if (cards.deckStack.stream().filter(predicate).count() == 4) {
+                out = true;
+                break;
+            }
+        }
+
+        return out;
+    }
+
+
+    public boolean hasQuads() {
+        Predicate<Card> predicate;
+        boolean out = false;
+
+        for (CardRank rank : CardRank.values()) {
+            predicate = a -> a.getRank().equals(rank);
+            if (this.cards.deckStack.stream().filter(predicate).count() == 4) {
                 out = true;
                 break;
             }
@@ -288,8 +455,8 @@ public class FigureCheck {
 
         for (CardRank rank : CardRank.values()) {
             predicate = a -> a.getRank().equals(rank);
-            if (cards.getCardDeck().stream().filter(predicate).count() == 4) {
-                cards.getCardDeck().stream()
+            if (cards.deckStack.stream().filter(predicate).count() == 4) {
+                cards.deckStack.stream()
                         .filter(predicate)
                         .forEach(a -> {
                             out.addCardToDeck(a);
@@ -303,18 +470,30 @@ public class FigureCheck {
         return hasColour(showStreigh(cards));
     }
 
+    public boolean hasStraightFlush() {
+        return hasColour(showStreigh(this.cards));
+    }
+
     private Deck showStraightFlush(Deck cards){ //Srednio mi się to podoba
         return showStreigh(cards);
     }
 
     private boolean hasRoyalFlush(Deck cards) {
         return hasStraightFlush(this.cards) &&
-                cards.getCardDeck().stream().map(Card::getRank).anyMatch(CardRank.A::equals) &&
-                cards.getCardDeck().stream().map(Card::getRank).anyMatch(CardRank.TEN::equals);
+                cards.deckStack.stream().map(Card::getRank).anyMatch(CardRank.A::equals) &&
+                cards.deckStack.stream().map(Card::getRank).anyMatch(CardRank.TEN::equals);
+    }
+
+    public boolean hasRoyalFlush() {
+        return hasStraightFlush(this.cards) &&
+                cards.deckStack.stream().map(Card::getRank).anyMatch(CardRank.A::equals) &&
+                cards.deckStack.stream().map(Card::getRank).anyMatch(CardRank.TEN::equals);
     }
 
     private Deck showRoyalFlush(Deck cards) {
         return showStreigh(cards);
     }
+
+
 }
 

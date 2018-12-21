@@ -13,8 +13,8 @@ public class CashManagement {
         this.playerMGM = playerMGM;
         this.smallBlind = smallBlind;
         this.bigBlind = 2 * smallBlind;
-        chipsStack = this.smallBlind + this.bigBlind;
-        actualBet = bigBlind;
+        this.chipsStack = this.smallBlind + this.bigBlind;
+        this.actualBet = bigBlind;
     }
 
     public void setActualBet(int actualBet) {
